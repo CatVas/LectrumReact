@@ -1,0 +1,9 @@
+
+.statusBar {
+    background: #4267b2;
+    border-bottom: #29487d;
+    display: flex;
+    height: 42px;
+    margin-bottom: 20px;
+    width: 100%;
+}
