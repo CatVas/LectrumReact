@@ -16,13 +16,11 @@ export default class Post extends Component {
 
         return (
             <Consumer>
-                {(context) => {
-                    const {
-                        avatar,
-                        currentUserFirstName,
-                        currentUserLastName,
-                    } = context;
-
+                {({
+                    avatar,
+                    currentUserFirstName,
+                    currentUserLastName,
+                }) => {
                     return (
                         <section className = { Styles.post }>
                             <img src = { avatar } />
