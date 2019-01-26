@@ -4,7 +4,8 @@ import Styles from './styles.m.css';
 
 export default class Feed extends Component {
     state = {
-        posts: [
+        isPending: false,
+        posts:     [
             {
                 comment: 'How are you?',
                 created: 1526825076849,
@@ -19,7 +20,7 @@ export default class Feed extends Component {
     };
 
     render() {
-        const { posts } = this.state;
+        const { isPending, posts } = this.state;
 
         const postsJSX = posts.map((post) => (
             <Post
@@ -30,7 +31,7 @@ export default class Feed extends Component {
 
         return (
             <section className = { Styles.feed }>
-                <Spinner isSpinning />
+                <Spinner isSpinning = { isPending } />
                 <StatusBar />
                 <Composer />
                 {postsJSX}
