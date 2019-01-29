@@ -9,12 +9,15 @@ export default class Feed extends Component {
         super();
         this._createPost = this._createPost.bind(this);
         this._likePost = this._likePost.bind(this);
+        this._removePost = this._removePost.bind(this);
+        this._setPendingPost = this._setPendingPost.bind(this);
         this._setPostFetchingState = this._setPostFetchingState.bind(this);
     }
 
     state = {
-        isPending: false,
-        posts:     [
+        isPending:     false,
+        pendingPostId: null,
+        posts:         [
             {
                 comment: 'How are you?',
                 created: 1526825076849,
@@ -77,17 +80,35 @@ export default class Feed extends Component {
         });
     }
 
+    async _removePost (id) {
+        this._setPendingPost(id);
+        this._setPostFetchingState(true);
+        await delay(1200);
+        this.setState(({ posts }) => ({
+            isPending:     false,
+            pendingPostId: null,
+            posts:         posts.filter((p) => p.id !== id),
+        }));
+    }
+
+    _setPendingPost (pendingPostId) {
+        this.setState({ pendingPostId });
+    }
+
     _setPostFetchingState (isPending) {
         this.setState({ isPending });
     }
 
     render() {
-        const { isPending, posts } = this.state;
+        const { isPending, pendingPostId, posts } = this.state;
 
-        const postsJSX = posts.map((post) => (
+        const postsJSX = posts.map(({ id, ...post }) => (
             <Post
                 _likePost = { this._likePost }
-                key = { post.id }
+                _removePost = { this._removePost }
+                id = { id }
+                key = { id }
+                pending = { id === pendingPostId }
                 { ...post }
             />
         ));
