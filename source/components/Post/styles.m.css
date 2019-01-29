@@ -46,20 +46,20 @@
         font-size: 12px;
         top: 35px;
     }
+}
 
-    .cross {
-        background-image: url('../../theme/assets/cross.png');
-        background-repeat: no-repeat;
-        content: '';
-        cursor: pointer;
-        height: 10px;
-        position: absolute;
-        right: 12px;
-        top: 12px;
-        width: 10px;
+.cross {
+    background-image: url('../../theme/assets/cross.png');
+    background-repeat: no-repeat;
+    content: '';
+    cursor: pointer;
+    height: 10px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 10px;
 
-        &:hover {
-            background-position: -13px 0;
-        }
+    &:hover {
+        background-position: -13px 0;
     }
 }
