@@ -63,3 +63,13 @@
         background-position: -13px 0;
     }
 }
+
+.pending {
+    & .cross {
+        cursor: default;
+
+        &:hover {
+            background-position: 0 0;
+        }
+    }
+}
