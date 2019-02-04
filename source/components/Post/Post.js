@@ -18,13 +18,7 @@ export default class Post extends Component {
         _likePost:   func.isRequired,
     };
 
-    constructor () {
-        super();
-
-        this._handlePostRemove = this._handlePostRemove.bind(this);
-    }
-
-    _handlePostRemove () {
+    _handlePostRemove = () => {
         const { _removePost, id, pending } = this.props;
 
         if (!pending) {
@@ -64,7 +58,6 @@ export default class Post extends Component {
                                 _likePost = { _likePost }
                                 id = { id }
                                 likes = { likes }
-                                { ...context }
                             />
                         </section>
                     );
