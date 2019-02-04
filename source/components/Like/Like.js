@@ -1,5 +1,6 @@
 
 import cn from 'classnames';
+import { withProfile } from 'components/HOC/withProfile';
 import { arrayOf, func, shape, string } from 'prop-types';
 import React, { PureComponent } from 'react';
 import Styles from './styles.m.css';
@@ -15,22 +16,11 @@ class Like extends PureComponent {
         _likePost: func.isRequired,
     };
 
-    constructor () {
-        super();
-        this._getLikedByMe = this._getLikedByMe.bind(this);
-        this._getLikersList = this._getLikersList.bind(this);
-        this._getLikesDescription = this._getLikesDescription.bind(this);
-        this._getLikeStyles = this._getLikeStyles.bind(this);
-        this._hideLikers = this._hideLikers.bind(this);
-        this._likePost = this._likePost.bind(this);
-        this._showLikers = this._showLikers.bind(this);
-    }
-
     state = {
         showLikers: false,
     };
 
-    _getLikedByMe () {
+    _getLikedByMe = () => {
         const { currentUserFirstName, currentUserLastName, likes } = this.props;
 
         return likes.some(({ firstName, lastName }) => {
@@ -41,7 +31,7 @@ class Like extends PureComponent {
         });
     }
 
-    _getLikersList () {
+    _getLikersList = () => {
         const { likes } = this.props;
         const { showLikers } = this.state;
         const likesJSX = likes.map(({ firstName, id, lastName }) => (
@@ -57,7 +47,7 @@ class Like extends PureComponent {
         ) : null;
     }
 
-    _getLikesDescription () {
+    _getLikesDescription = () => {
         const { currentUserFirstName, currentUserLastName, likes } = this.props;
         const likedByMe = this._getLikedByMe();
 
@@ -72,7 +62,7 @@ class Like extends PureComponent {
         return likes.length;
     }
 
-    _getLikeStyles () {
+    _getLikeStyles = () => {
         const likedByMe = this._getLikedByMe();
 
         return cn(Styles.icon, {
@@ -80,16 +70,16 @@ class Like extends PureComponent {
         });
     }
 
-    _hideLikers () {
+    _hideLikers = () => {
         this.setState({ showLikers: false });
     }
 
-    _likePost () {
+    _likePost = () => {
         const { _likePost, id } = this.props;
         _likePost(id);
     }
 
-    _showLikers () {
+    _showLikers = () => {
         this.setState({ showLikers: true });
     }
 
@@ -118,4 +108,4 @@ class Like extends PureComponent {
     }
 }
 
-export default Like;
+export default withProfile(Like);

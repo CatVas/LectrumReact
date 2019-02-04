@@ -1,19 +1,11 @@
 import { Composer, Post, Spinner, StatusBar } from 'components';
+import { withProfile } from 'components/HOC/withProfile';
 import { delay, getUniqueID } from 'instruments';
 import moment from 'moment';
 import React, { Component } from 'react';
 import Styles from './styles.m.css';
 
-export default class Feed extends Component {
-    constructor () {
-        super();
-        this._createPost = this._createPost.bind(this);
-        this._likePost = this._likePost.bind(this);
-        this._removePost = this._removePost.bind(this);
-        this._setPendingPost = this._setPendingPost.bind(this);
-        this._setPostFetchingState = this._setPostFetchingState.bind(this);
-    }
-
+class Feed extends Component {
     state = {
         isPending:     false,
         pendingPostId: null,
@@ -33,7 +25,7 @@ export default class Feed extends Component {
         ],
     };
 
-    async _createPost (comment) {
+    _createPost = async (comment) => {
         const post = {
             comment,
             created: moment().utc()
@@ -50,7 +42,7 @@ export default class Feed extends Component {
         }));
     }
 
-    async _likePost (id) {
+    _likePost = async (id) => {
         const { currentUserFirstName, currentUserLastName } = this.props;
         const { posts } = this.state;
 
@@ -80,7 +72,7 @@ export default class Feed extends Component {
         });
     }
 
-    async _removePost (id) {
+    _removePost = async (id) => {
         this._setPendingPost(id);
         this._setPostFetchingState(true);
         await delay(1200);
@@ -91,11 +83,11 @@ export default class Feed extends Component {
         }));
     }
 
-    _setPendingPost (pendingPostId) {
+    _setPendingPost = (pendingPostId) => {
         this.setState({ pendingPostId });
     }
 
-    _setPostFetchingState (isPending) {
+    _setPostFetchingState = (isPending) => {
         this.setState({ isPending });
     }
 
@@ -123,3 +115,5 @@ export default class Feed extends Component {
         );
     }
 }
+
+export default withProfile(Feed);
