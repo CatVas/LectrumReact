@@ -1,3 +1,4 @@
+export { default as Catcher } from './Catcher';
 export { default as Composer } from './Composer';
 export { default as Feed } from './Feed';
 export { default as Like } from './Like';
