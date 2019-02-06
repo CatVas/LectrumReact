@@ -18,6 +18,23 @@ class Post extends Component {
         _likePost:   func.isRequired,
     };
 
+    _getCross = () => {
+        const {
+            currentUserFirstName,
+            currentUserLastName,
+            firstName,
+            lastName,
+        } = this.props;
+
+        return `${currentUserFirstName}${currentUserLastName}` === `${firstName}${lastName}`
+            ? (
+                <span
+                    className = { Styles.cross }
+                    onClick = { this._handlePostRemove }
+                />
+            ) : null;
+    }
+
     _handlePostRemove = () => {
         const { _removePost, id, pending } = this.props;
 
@@ -31,24 +48,22 @@ class Post extends Component {
             avatar,
             comment,
             created,
-            currentUserFirstName,
-            currentUserLastName,
+            firstName,
             id,
+            lastName,
             likes,
             pending,
             _likePost,
         } = this.props;
+        const crossJSX = this._getCross();
 
         return (
             <section className = { cn(Styles.post, {
                 [ Styles.pending ]: pending,
             }) }>
-                <span
-                    className = { Styles.cross }
-                    onClick = { this._handlePostRemove }
-                />
+                {crossJSX}
                 <img src = { avatar } />
-                <a>{`${currentUserFirstName} ${currentUserLastName}`}</a>
+                <a>{`${firstName} ${lastName}`}</a>
                 <time>
                     {moment.unix(created).format('MMMM D h:mm:ss a')}
                 </time>
