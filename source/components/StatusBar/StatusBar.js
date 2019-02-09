@@ -1,7 +1,9 @@
 
 import cn from 'classnames';
 import { withProfile } from 'components/HOC/withProfile';
+import { fromTo } from 'gsap';
 import React, { Component } from 'react';
+import { Transition } from 'react-transition-group';
 import { socket } from 'socket/init';
 import Styles from './styles.m.css';
 
@@ -28,6 +30,14 @@ class StatusBar extends Component {
         socket.removeListener('disconnect');
     }
 
+    _animateStatusBarEnter = (element) => {
+        fromTo(element, 4, {
+            opacity: 0,
+        }, {
+            opacity: 1,
+        });
+    }
+
     render () {
         const {
             avatar,
@@ -42,20 +52,26 @@ class StatusBar extends Component {
         });
 
         return (
-            <section className = { Styles.statusBar }>
-                <div className = { statusStyle }>
-                    <div>
-                        { statusMessage }
+            <Transition
+                appear
+                in
+                timeout = { 4000 }
+                onEnter = { this._animateStatusBarEnter }>
+                <section className = { Styles.statusBar }>
+                    <div className = { statusStyle }>
+                        <div>
+                            { statusMessage }
+                        </div>
+                        <span />
                     </div>
-                    <span />
-                </div>
-                <button>
-                    <img src = { avatar } />
-                    <span>{ currentUserFirstName }</span>
-                    &nbsp;
-                    <span>{ currentUserLastName }</span>
-                </button>
-            </section>
+                    <button>
+                        <img src = { avatar } />
+                        <span>{ currentUserFirstName }</span>
+                        &nbsp;
+                        <span>{ currentUserLastName }</span>
+                    </button>
+                </section>
+            </Transition>
         );
     }
 }
