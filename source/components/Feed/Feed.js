@@ -1,7 +1,9 @@
-import { Catcher, Composer, Post, Spinner, StatusBar } from 'components';
+import { Catcher, Composer, Post, Postman, Spinner, StatusBar } from 'components';
 import { withProfile } from 'components/HOC/withProfile';
 import { api, GROUP_ID, TOKEN } from 'config/api';
+import { fromTo } from 'gsap';
 import React, { Component } from 'react';
+import { Transition } from 'react-transition-group';
 import { socket } from 'socket/init';
 import Styles from './styles.m.css';
 
@@ -60,6 +62,22 @@ class Feed extends Component {
         socket.removeListener('create');
         socket.removeListener('like');
         socket.removeListener('remove');
+    }
+
+    _animateComposeEnter = (composerDOM) => {
+        fromTo(
+            composerDOM,
+            4,
+            {
+                opacity:   0,
+                rotationX: 50,
+            },
+            {
+                opacity:    1,
+                rotationX:  0,
+                onComplete: () => { console.log('Animation is done'); },
+            },
+        );
     }
 
     _createPost = async (comment) => {
@@ -152,8 +170,15 @@ class Feed extends Component {
             <section className = { Styles.feed }>
                 <Spinner isSpinning = { isPending } />
                 <StatusBar />
-                <Composer _createPost = { this._createPost } />
+                <Transition
+                    appear
+                    in
+                    timeout = { 4000 }
+                    onEnter = { this._animateComposeEnter }>
+                    <Composer _createPost = { this._createPost } />
+                </Transition>
                 {postsJSX}
+                <Postman />
             </section>
         );
     }
