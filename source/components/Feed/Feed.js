@@ -11,6 +11,7 @@ class Feed extends Component {
     state = {
         isPending:     false,
         pendingPostId: null,
+        postmanIn:     true,
         posts:         [],
     };
 
@@ -62,7 +63,11 @@ class Feed extends Component {
         socket.removeListener('create');
         socket.removeListener('like');
         socket.removeListener('remove');
+        clearTimeout(this.postmanTimeout);
     }
+
+    postmanTimeout = null;
+    postmanX = 290;
 
     _animateComposeEnter = (composerDOM) => {
         fromTo(
@@ -77,6 +82,28 @@ class Feed extends Component {
                 rotationX:  0,
                 onComplete: () => { console.log('Animation is done'); },
             },
+        );
+    }
+
+    _animatePostmanEnter = (el) => {
+        fromTo(
+            el,
+            1,
+            { x: this.postmanX },
+            { x: 0 },
+        );
+    }
+
+    _animatePostmanEntered = () => {
+        this.postmanTimeout = setTimeout(this._togglePostmanIn, 4000);
+    }
+
+    _animatePostmanExit = (el) => {
+        fromTo(
+            el,
+            1,
+            { x: 0 },
+            { x: this.postmanX },
         );
     }
 
@@ -151,8 +178,14 @@ class Feed extends Component {
         this.setState({ isPending });
     }
 
+    _togglePostmanIn = () => {
+        this.setState(({ postmanIn }) => ({
+            postmanIn: !postmanIn,
+        }));
+    }
+
     render() {
-        const { isPending, pendingPostId, posts } = this.state;
+        const { isPending, pendingPostId, postmanIn, posts } = this.state;
 
         const postsJSX = posts.map(({ id, ...post }) => (
             <Catcher key = { id }>
@@ -178,7 +211,15 @@ class Feed extends Component {
                     <Composer _createPost = { this._createPost } />
                 </Transition>
                 {postsJSX}
-                <Postman />
+                <Transition
+                    appear
+                    in = { postmanIn }
+                    timeout = {{ enter: 1, exit: 1 }}
+                    onEnter = { this._animatePostmanEnter }
+                    onEntered = { this._animatePostmanEntered }
+                    onExit = { this._animatePostmanExit }>
+                    <Postman />
+                </Transition>
             </section>
         );
     }
