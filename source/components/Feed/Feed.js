@@ -3,7 +3,7 @@ import { withProfile } from 'components/HOC/withProfile';
 import { api, GROUP_ID, TOKEN } from 'config/api';
 import { fromTo } from 'gsap';
 import React, { Component } from 'react';
-import { Transition } from 'react-transition-group';
+import { CSSTransition, Transition, TransitionGroup } from 'react-transition-group';
 import { socket } from 'socket/init';
 import Styles from './styles.m.css';
 
@@ -188,15 +188,23 @@ class Feed extends Component {
         const { isPending, pendingPostId, postmanIn, posts } = this.state;
 
         const postsJSX = posts.map(({ id, ...post }) => (
-            <Catcher key = { id }>
-                <Post
-                    _likePost = { this._likePost }
-                    _removePost = { this._removePost }
-                    id = { id }
-                    pending = { id === pendingPostId }
-                    { ...post }
-                />
-            </Catcher>
+            <CSSTransition
+                classNames = {{
+                    enter:       Styles.postInStart,
+                    enterActive: Styles.postInEnd,
+                }}
+                key = { id }
+                timeout = {{ enter: 500, exit: 400 }}>
+                <Catcher>
+                    <Post
+                        _likePost = { this._likePost }
+                        _removePost = { this._removePost }
+                        id = { id }
+                        pending = { id === pendingPostId }
+                        { ...post }
+                    />
+                </Catcher>
+            </CSSTransition>
         ));
 
         return (
@@ -210,7 +218,9 @@ class Feed extends Component {
                     onEnter = { this._animateComposeEnter }>
                     <Composer _createPost = { this._createPost } />
                 </Transition>
-                {postsJSX}
+                <TransitionGroup>
+                    {postsJSX}
+                </TransitionGroup>
                 <Transition
                     appear
                     in = { postmanIn }
