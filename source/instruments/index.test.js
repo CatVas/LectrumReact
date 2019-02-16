@@ -1,5 +1,5 @@
 
-import { delay, getUniqueID, sum } from './';
+import { delay, getFullApiUrl, getUniqueID, sum } from './';
 
 describe('instruments:', () => {
     test('sum should be a function', () => {
@@ -35,5 +35,28 @@ describe('instruments:', () => {
         const res = getUniqueID(20);
         expect(typeof res).toBe('string');
         expect(res).toHaveLength(20);
+    });
+
+    describe('getFullApiUrl', () => {
+        test('should be a function', () => {
+            expect(getFullApiUrl).toBeInstanceOf(Function);
+        });
+
+        test('should throw on 1st arg non-string', () => {
+            expect(() => getFullApiUrl(null, 'groupId'))
+                .toThrow();
+        });
+
+        test('should throw on 2nd arg non-string', () => {
+            expect(() => getFullApiUrl('api', null))
+                .toThrow();
+        });
+
+        test('should return result', () => {
+            const api = 'api';
+            const groupId = 'groupId';
+            const res = getFullApiUrl(api, groupId);
+            expect(res).toBe(`${api}/${groupId}`);
+        });
     });
 });
