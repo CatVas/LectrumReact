@@ -1,4 +1,4 @@
-import { Catcher, Composer, Post, Postman, Spinner, StatusBar } from 'components';
+import { Catcher, Composer, Counter, Post, Postman, Spinner, StatusBar } from 'components';
 import { withProfile } from 'components/HOC/withProfile';
 import { api, GROUP_ID, TOKEN } from 'config/api';
 import { fromTo } from 'gsap';
@@ -220,6 +220,7 @@ class Feed extends Component {
                     onEnter = { this._animateComposeEnter }>
                     <Composer _createPost = { this._createPost } />
                 </Transition>
+                <Counter count = { posts.length } />
                 <TransitionGroup>
                     {postsJSX}
                 </TransitionGroup>
