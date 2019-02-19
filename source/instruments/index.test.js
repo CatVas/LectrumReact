@@ -27,6 +27,11 @@ describe('instruments:', () => {
         expect(getUniqueID).toBeInstanceOf(Function);
     });
 
+    test('getUniqueID defaults to a string with length 15', () => {
+        const res = getUniqueID();
+        expect(res).toHaveProperty('length', 15);
+    });
+
     test('getUniqueID throws with non-number arg', () => {
         expect(() => getUniqueID('20')).toThrow();
     });
