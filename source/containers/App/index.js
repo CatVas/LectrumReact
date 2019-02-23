@@ -1,7 +1,10 @@
-import { Catcher, Feed } from 'components';
+import {
+    Catcher, Feed, Profile, StatusBar,
+} from 'components';
 import { Provider } from 'components/HOC/withProfile';
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import avatar from 'theme/assets/lisa';
 
 const options = {
@@ -16,7 +19,18 @@ export default class App extends Component {
         return (
             <Catcher>
                 <Provider value = { options }>
-                    <Feed />
+                    <StatusBar />
+                    <Switch>
+                        <Route
+                            component = { Feed }
+                            path = '/feed'
+                        />
+                        <Route
+                            component = { Profile }
+                            path = '/profile'
+                        />
+                        <Redirect to = '/feed' />
+                    </Switch>
                 </Provider>
             </Catcher>
         );

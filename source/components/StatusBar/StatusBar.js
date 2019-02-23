@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { withProfile } from 'components/HOC/withProfile';
 import { fromTo } from 'gsap';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import { socket } from 'socket/init';
 import Styles from './styles.m.css';
@@ -42,7 +43,6 @@ class StatusBar extends Component {
         const {
             avatar,
             currentUserFirstName,
-            currentUserLastName,
         } = this.props;
         const { online } = this.state;
         const statusMessage = online ? 'Online' : 'Offline';
@@ -64,12 +64,13 @@ class StatusBar extends Component {
                         </div>
                         <span />
                     </div>
-                    <button>
+                    <Link to = '/profile'>
                         <img src = { avatar } />
                         <span>{ currentUserFirstName }</span>
-                        &nbsp;
-                        <span>{ currentUserLastName }</span>
-                    </button>
+                    </Link>
+                    <Link to = '/feed'>
+                        Feed
+                    </Link>
                 </section>
             </Transition>
         );

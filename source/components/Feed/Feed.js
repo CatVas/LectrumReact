@@ -1,4 +1,4 @@
-import { Catcher, Composer, Counter, Post, Postman, Spinner, StatusBar } from 'components';
+import { Catcher, Composer, Counter, Post, Postman, Spinner } from 'components';
 import { withProfile } from 'components/HOC/withProfile';
 import { api, GROUP_ID, TOKEN } from 'config/api';
 import { fromTo } from 'gsap';
@@ -212,7 +212,6 @@ class Feed extends Component {
         return (
             <section className = { Styles.feed }>
                 <Spinner isSpinning = { isPending } />
-                <StatusBar />
                 <Transition
                     appear
                     in
