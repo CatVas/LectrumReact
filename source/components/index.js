@@ -3,6 +3,7 @@ export { default as Composer } from './Composer';
 export { default as Counter } from './Counter';
 export { default as Feed } from './Feed';
 export { default as Like } from './Like';
+export { default as Login } from './Login';
 export { default as Post } from './Post';
 export { default as Postman } from './Postman';
 export { default as Profile } from './Profile';

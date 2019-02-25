@@ -42,6 +42,10 @@
         }
     }
 
+    & .logout {
+        cursor: pointer;
+    }
+
     & .status {
         position: absolute;
         display: flex;
