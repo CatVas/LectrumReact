@@ -1,0 +1,9 @@
+
+.login {
+    padding: 20px;
+    text-align: center;
+
+    & button {
+        cursor: pointer;
+    }
+}

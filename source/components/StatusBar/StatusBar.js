@@ -2,7 +2,7 @@
 import cn from 'classnames';
 import { withProfile } from 'components/HOC/withProfile';
 import { fromTo } from 'gsap';
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
 import { socket } from 'socket/init';
@@ -39,8 +39,14 @@ class StatusBar extends Component {
         });
     }
 
+    _handleLogoutClick = () => {
+        const { _setAuth } = this.props;
+        _setAuth(false);
+    };
+
     render () {
         const {
+            authenticated,
             avatar,
             currentUserFirstName,
         } = this.props;
@@ -64,13 +70,22 @@ class StatusBar extends Component {
                         </div>
                         <span />
                     </div>
-                    <Link to = '/profile'>
-                        <img src = { avatar } />
-                        <span>{ currentUserFirstName }</span>
-                    </Link>
-                    <Link to = '/feed'>
-                        Feed
-                    </Link>
+                    {authenticated && (
+                        <Fragment>
+                            <Link to = '/profile'>
+                                <img src = { avatar } />
+                                <span>{ currentUserFirstName }</span>
+                            </Link>
+                            <Link to = '/feed'>
+                                Feed
+                            </Link>
+                            <button
+                                className = { Styles.logout }
+                                onClick = { this._handleLogoutClick }>
+                                Logout
+                            </button>
+                        </Fragment>
+                    )}
                 </section>
             </Transition>
         );
