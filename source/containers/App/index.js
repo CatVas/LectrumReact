@@ -32,7 +32,7 @@ export default class App extends Component {
 
     _setAuth = (authenticated) => {
         this.setState({ authenticated });
-        localStorage.setItem(_lsAuthName, JSON.stringify(!!authenticated));
+        localStorage.setItem(_lsAuthName, JSON.stringify(authenticated));
     };
 
     render() {
